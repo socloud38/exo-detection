@@ -1,0 +1,13 @@
+.explosion {
+    transition: 1s;
+    animation: fadeOff 2s 1;
+}
+
+@keyframes fadeOff {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}

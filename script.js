@@ -78,9 +78,11 @@ class Tonneau {
     this.explosion.style.position = "absolute";
     this.explosion.style.width = "50px";
     this.explosion.style.height = "50px";
+    this.explosion.style.opacity = "1";
     this.explosion.style.backgroundImage = "url('./images/sprite2D/explosion.png')";
     this.explosion.style.backgroundRepeat = "no-repeat";
     this.explosion.style.backgroundSize = "cover";
+    this.explosion.classList.add('explosion');
 
     this.initialization();
   }
@@ -114,11 +116,11 @@ class Tonneau {
         this.explosion.style.left = `${this.posX - 5}px`;
         screen.appendChild(this.explosion);
         clearInterval(this.intervalID);
+        this.t.remove();
         setTimeout(() => {
           score += 50;
+          this.explosion.remove()
           scoreBoard.innerText = `${score} Points`;
-          this.explosion.remove();
-          this.t.remove();
         }, 700)
       }
     }
