@@ -31,6 +31,17 @@ const platforms = [
   { top: 540, right: 110, width: 60 },
 ];
 
+let score = 0;
+const scoreBoard = document.createElement('span')
+  scoreBoard.innerText = `${score} Points`;
+  scoreBoard.style.position = "absolute";
+  scoreBoard.style.bottom = "10px";
+  scoreBoard.style.left = "10px";
+  scoreBoard.style.fontSize = "30px";
+  scoreBoard.style.color = "white";
+
+screen.appendChild(scoreBoard);
+
 function createPlatorm(d) {
   const pf = document.createElement('div');
   pf.style.position = "absolute";
@@ -104,14 +115,14 @@ class Tonneau {
         screen.appendChild(this.explosion);
         clearInterval(this.intervalID);
         setTimeout(() => {
+          score += 50;
+          scoreBoard.innerText = `${score} Points`;
           this.explosion.remove();
           this.t.remove();
         }, 700)
       }
     }
-
   }
-
 }
 
 function generateTonneau() {
@@ -119,7 +130,7 @@ function generateTonneau() {
     const randomX = Math.floor(Math.random() * widthScreen);
     const newT = new Tonneau(randomX);
     screen.appendChild(newT.getT());
-  }, 1000);
+  }, 2000);
 }
 
 // Append the platform
