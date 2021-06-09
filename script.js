@@ -62,6 +62,7 @@ class Tonneau {
     this.posX = x;
     this.posY = 0;
     this.intervalID = 0;
+    this.speed = 15;
     // Create tonneau
     this.t = document.createElement('div');
     this.t.style.position = "absolute";
@@ -89,7 +90,7 @@ class Tonneau {
 
   initialization = () => {
     this.intervalID = setInterval(() => {
-      this.posY += 5;
+      this.posY += this.speed;
       this.t.style.top = `${this.posY}px`;
       this.detectionSurface();
     }, 50);
