@@ -10,25 +10,25 @@ screen.style.position = "relative";
 screen.style.width = `${widthScreen}px`;
 screen.style.height = `${heightScreen}px`;
 screen.style.border = "solid 1px black";
-screen.style.background = "linear-gradient(to bottom, #94c5f8 1%,#a6e6ff 70%,#b1b5ea 100%)";
+screen.style.backgroundImage = "url('./images/sprite2D/background.jpeg')";
+screen.style.backgroundSize = "cover";
 screen.style.overflow = "hidden";
 
 // Create the platform
 const heightPlatform = 20;
 const platforms = [
-  { top: 80, left: 10, width: 45 },
-  { top: 150, left: 30, width: 45 },
-  { top: 220, left: 50, width: 45 },
-  { top: 290, left: 70, width: 45 },
-  { top: 360, left: 90, width: 45 },
-  { top: 430, left: 110, width: 45 },
-  { top: 80, right: 10, width: 45 },
-  { top: 150, right: 30, width: 45 },
-  { top: 220, right: 50, width: 45 },
-  { top: 290, right: 70, width: 45 },
-  { top: 360, right: 90, width: 45 },
-  { top: 430, right: 110, width: 45 },
-  
+  { top: 150, left: 10, width: 60 },
+  { top: 220, left: 30, width: 60 },
+  { top: 290, left: 50, width: 60 },
+  { top: 360, left: 70, width: 60 },
+  { top: 430, left: 90, width: 60 },
+  { top: 540, left: 110, width: 60 },
+  { top: 150, right: 10, width: 60 },
+  { top: 220, right: 30, width: 60 },
+  { top: 290, right: 50, width: 60 },
+  { top: 360, right: 70, width: 60 },
+  { top: 430, right: 90, width: 60 },
+  { top: 540, right: 110, width: 60 },
 ];
 
 function createPlatorm(d) {
@@ -39,8 +39,9 @@ function createPlatorm(d) {
     else pf.style.right = `${d.right}px`;
   pf.style.width = `${d.width}px`;
   pf.style.height = `${heightPlatform}px`;
-  pf.style.backgroundColor = 'grey';
-  pf.style.border = "2px solid black";
+  pf.style.backgroundImage = "url('./images/sprite2D/platform.png')";
+  pf.style.backgroundSize = "contain";
+  pf.style.backgroundRepeat = "no-repeat";
   return pf;
 }
 
@@ -56,10 +57,20 @@ class Tonneau {
     this.t.style.top = `${this.posY}px`;
     this.t.style.left = `${this.posX}px`;
     this.t.style.width = "30px";
-    this.t.style.height = "22px";
-    this.t.style.backgroundColor = "brown";
-    this.t.style.border = "1px solid black";
-    this.t.style.borderRadius = "8px";
+    this.t.style.height = "50px";
+    this.t.style.transform = "rotate(180deg)";
+    this.t.style.backgroundImage = "url('./images/sprite2D/fusée.png')";
+    this.t.style.backgroundSize = "contain";
+    this.t.style.backgroundRepeat = "no-repeat";
+
+    this.explosion = document.createElement('div');
+    this.explosion.style.position = "absolute";
+    this.explosion.style.width = "50px";
+    this.explosion.style.height = "50px";
+    this.explosion.style.backgroundImage = "url('./images/sprite2D/explosion.png')";
+    this.explosion.style.backgroundRepeat = "no-repeat";
+    this.explosion.style.backgroundSize = "cover";
+
     this.initialization();
   }
 
@@ -77,9 +88,23 @@ class Tonneau {
 
   // TODO
   detectionSurface = () => {
+    for (const platform of platforms) {
+      const left = (this.posX < (platform.left + platform.width))
+      const right = (this.posX > (widthScreen - (platform.right + platform.width) - parseInt(this.t.style.width)))
+      const ifRight = platform.right ? right : left;
 
-    // If surface detected
-    //clearInterval(this.intervalID);
+      if( this.posY + parseInt(this.t.style.height) >= platform.top && ifRight) {
+        this.explosion.style.top = `${this.posY + 10}px`;
+        this.explosion.style.left = `${this.posX - 5}px`;
+        screen.appendChild(this.explosion);
+        clearInterval(this.intervalID);
+        setTimeout(() => {
+          this.explosion.remove();
+          this.t.remove();
+        }, 700)
+      }
+    }
+
   }
 
 }
@@ -89,7 +114,7 @@ function generateTonneau() {
     const randomX = Math.floor(Math.random() * widthScreen);
     const newT = new Tonneau(randomX);
     screen.appendChild(newT.getT());
-  }, 2000);
+  }, 1000);
 }
 
 // Append the platform
