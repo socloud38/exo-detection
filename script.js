@@ -80,6 +80,11 @@ class Tonneau {
       this.t.style.top = `${this.posY}px`;
       this.detectionSurface();
     }, 50);
+    setInterval(() => {
+      if(this.posY >= 900) {
+        this.t.remove();
+      }
+    }, 1000)
   }
 
   getT() {
