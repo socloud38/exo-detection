@@ -126,15 +126,15 @@ class Tonneau {
         clearInterval(this.intervalID);
         //supprime la fusée
         this.t.remove();
-        //timeout de 0.7sec
+        //incremente le score
+        score += 50;
+        //ecrit le score
+        scoreBoard.innerText = `${score} Points`;
+        //timeout de 1sec
         setTimeout(() => {
-          //incremente le score
-          score += 50;
           //suppr l'explosion
           this.explosion.remove()
-          //ecrit le score
-          scoreBoard.innerText = `${score} Points`;
-        }, 700)
+        }, 1000)
       }
     }
   }
