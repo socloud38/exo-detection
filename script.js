@@ -106,20 +106,33 @@ class Tonneau {
 
   // TODO
   detectionSurface = () => {
+    //parcours toutes les platforms
     for (const platform of platforms) {
+      //check la position de la fusée (tonneau) dans l'axe X par rapport a la platform et ca largeur pour les platforms left
       const left = (this.posX < (platform.left + platform.width))
+      //check la position de la fusée dans l'axe X par rapport a la platform et ca largeur pour les platform right
       const right = (this.posX > (widthScreen - (platform.right + platform.width) - parseInt(this.t.style.width)))
+      //check avec un ternaire si c'est une platforms left ou right
       const ifRight = platform.right ? right : left;
 
+      //fais le check global pour savoir si il y a collision entre la fusée et une des platforms
       if( this.posY + parseInt(this.t.style.height) >= platform.top && ifRight) {
+        //ajoute une explosion selon l'axe Y et X de la fusée
         this.explosion.style.top = `${this.posY + 10}px`;
         this.explosion.style.left = `${this.posX - 5}px`;
+        //instancie l'explosion
         screen.appendChild(this.explosion);
+        //arrete la fusée (elle est supprimée juste après)
         clearInterval(this.intervalID);
+        //supprime la fusée
         this.t.remove();
+        //timeout de 0.7sec
         setTimeout(() => {
+          //incremente le score
           score += 50;
+          //suppr l'explosion
           this.explosion.remove()
+          //ecrit le score
           scoreBoard.innerText = `${score} Points`;
         }, 700)
       }
